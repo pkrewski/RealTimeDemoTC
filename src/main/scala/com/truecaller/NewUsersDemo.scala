@@ -69,7 +69,7 @@ object NewUsersDemo {
 //      appEvent
 //    }
 
-    val lines = KafkaUtils.createStream[String, Array[Byte], StringDecoder, DefaultDecoder] (
+    val lines = KafkaUtils.createStream[Array[Byte], Array[Byte], DefaultDecoder, DefaultDecoder] (
       ssc, kafkaParams, topicMap, StorageLevel.MEMORY_AND_DISK).map(_._2)
 
 
