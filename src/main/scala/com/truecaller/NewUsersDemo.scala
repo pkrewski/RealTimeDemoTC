@@ -31,19 +31,22 @@ object NewUsersDemo {
     val topicMap = Map(topic -> 1)
     val lines = KafkaUtils.createStream(ssc, zookeeper, "spark-streaming", topicMap).map(_._2)
 
-    val avroLogDecoder = new AvroLogDecoder()
-    avroLogDecoder.init(topic)
-
     lines.foreachRDD { r =>
-      if (r.count() == 0) {
-        logger.error("pusto")
-      } else {
-        r.map( event => {
-          val appEvent = avroLogDecoder.decode(event.asInstanceOf[Array[Byte]])
-          logger.warn("appEvent: " + appEvent)
-        })
-        logger.error("cos jest: " + r.count())
-      }
+
+      r.foreachPartition( rddPart => {
+        val avroLogDecoder = new AvroLogDecoder()
+        avroLogDecoder.init(topic)
+        if (rddPart.size == 0) {
+          logger.error("pusto")
+        } else {
+          rddPart.map( event => {
+            val appEvent = avroLogDecoder.decode(event.asInstanceOf[Array[Byte]])
+            logger.warn("appEvent: " + appEvent)
+          })
+          logger.error("cos jest: " + rddPart.size)
+        }
+
+      })
     }
 
     // start streaming process
