@@ -52,7 +52,8 @@ object NewUsersDemo {
 //    val lines = KafkaUtils.createStrcreateStream(ssc, zookeeper, "spark-streaming", topicMap).map(_._2)
 
     val brokers="kafka1.truecaller.net:9092,kafka2.truecaller.net:9092,kafka3.truecaller.net:9092"
-    val kafkaParams = Map[String, String]("zookeeper.connect" -> "kafka1.truecaller.net:2181")
+    val kafkaParams = Map[String, String]("zookeeper.connect" -> "kafka1.truecaller.net:2181",
+                                          "group.id" -> "sparkDemo")
 //
 //    val decodeEditEvent: (MessageAndMetadata[Array[Byte], Array[Byte]]) => app_event = (m: MessageAndMetadata[Array[Byte], Array[Byte]]) => {
 //      val value = m.message()
