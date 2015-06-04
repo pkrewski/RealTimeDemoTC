@@ -3,10 +3,9 @@ package com.truecaller
 import java.util.Properties
 
 import _root_.kafka.message.MessageAndMetadata
-import _root_.kafka.serializer.{StringDecoder, DefaultDecoder}
+import _root_.kafka.serializer._
 import com.linkedin.camus.schemaregistry.{CachedSchemaRegistry, SchemaRegistry}
 import com.truecaller.logging.kafka.events.app_event
-import io.netty.handler.codec.bytes.ByteArrayDecoder
 import org.apache.avro.Schema
 import org.apache.avro.io.DecoderFactory
 import org.apache.avro.specific.SpecificDatumReader
@@ -70,8 +69,9 @@ object NewUsersDemo {
 //      appEvent
 //    }
 
-    val lines = KafkaUtils.createStream[String, Array[Byte], StringDecoder, ByteArrayDecoder](
+    val lines = KafkaUtils.createStream[String, Array[Byte], StringDecoder, DefaultDecoder] (
       ssc, kafkaParams, topicMap, StorageLevel.MEMORY_AND_DISK).map(_._2)
+    
 
     lines.foreachRDD { r =>
 
