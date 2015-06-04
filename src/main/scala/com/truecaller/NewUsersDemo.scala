@@ -71,18 +71,21 @@ object NewUsersDemo {
 
     val lines = KafkaUtils.createStream[String, Array[Byte], StringDecoder, DefaultDecoder] (
       ssc, kafkaParams, topicMap, StorageLevel.MEMORY_AND_DISK).map(_._2)
-    
 
-    lines.foreachRDD { r =>
 
-      r.foreachPartition( rddPart => {
+    lines.foreachRDD { r => {
+      if (r.count() == 0)
+        logger.error("pustooo")
+      else
+      logger.error("cos jest :)")
+      r.foreachPartition(rddPart => {
         val avroLogDecoder = new AvroLogDecoder()
         avroLogDecoder.init(topic)
         val list = rddPart.toList
         if (list.size == 0) {
           logger.error("pusto")
         } else {
-          list.map( event => {
+          list.map(event => {
             logger.error("processing event...")
             val appEvent = avroLogDecoder.decode(event)
             logger.error("appEvent: " + appEvent)
@@ -91,6 +94,7 @@ object NewUsersDemo {
         }
 
       })
+    }
     }
 
     // start streaming process
