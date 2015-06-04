@@ -42,7 +42,7 @@ object NewUsersDemo {
         } else {
           list.map( event => {
             logger.error("processing event...")
-            val appEvent = avroLogDecoder.decode(event.asInstanceOf[Array[Byte]])
+            val appEvent = avroLogDecoder.decode(event.getBytes)
             logger.error("appEvent: " + appEvent)
           })
           logger.error("cos jest: " + list.size)
