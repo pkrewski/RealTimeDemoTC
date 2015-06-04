@@ -40,6 +40,7 @@ object NewUsersDemo {
           logger.error("pusto")
         } else {
           rddPart.map( event => {
+            logger.warn("processing event...")
             val appEvent = avroLogDecoder.decode(event.asInstanceOf[Array[Byte]])
             logger.warn("appEvent: " + appEvent)
           })
