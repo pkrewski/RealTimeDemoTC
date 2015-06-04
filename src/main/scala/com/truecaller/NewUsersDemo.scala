@@ -36,15 +36,16 @@ object NewUsersDemo {
       r.foreachPartition( rddPart => {
         val avroLogDecoder = new AvroLogDecoder()
         avroLogDecoder.init(topic)
-        if (rddPart.toList.size == 0) {
+        val list = rddPart.toList
+        if (list.size == 0) {
           logger.error("pusto")
         } else {
-          rddPart.map( event => {
+          list.map( event => {
             logger.error("processing event...")
             val appEvent = avroLogDecoder.decode(event.asInstanceOf[Array[Byte]])
             logger.error("appEvent: " + appEvent)
           })
-          logger.error("cos jest: " + rddPart.toList.size)
+          logger.error("cos jest: " + list.size)
         }
 
       })
