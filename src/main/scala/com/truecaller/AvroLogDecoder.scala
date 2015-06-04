@@ -9,7 +9,7 @@ import org.apache.avro.io.DecoderFactory
 import org.apache.avro.specific.SpecificDatumReader
 import org.slf4j.LoggerFactory
 
-
+@serializable
 class AvroLogDecoder {
 
   val OFFSET = 5
