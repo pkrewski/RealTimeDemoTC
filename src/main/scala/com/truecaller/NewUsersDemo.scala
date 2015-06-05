@@ -58,16 +58,18 @@ object NewUsersDemo {
       avroLogDecoder.init(topic)
       avroLogDecoder.decode(avroEvent)
     }}
-      .filter(_.getSearch.getSearchString != null)
-      .map( event => (event.getUser.getRegisterId, event.getSearch.getSearchString))
+    .map(_.getSearch.getSearchString)
+//      .filter(_.getSearch.getSearchString != null)
+//      .map( event => (event.getUser.getRegisterId, event.getSearch.getSearchString))
+//
+//    val cnt = regIdSearch.groupByKey().map{ case (regId, itr) => {
+//      val size = itr.toList.size
+//      logger.error("" + regId + ": " + size )
+//      (regId, size)
+//    }}
 
-    val cnt = regIdSearch.groupByKey().map{ case (regId, itr) => {
-      val size = itr.toList.size
-      logger.error("" + regId + ": " + size )
-      (regId, size)
-    }}
-
-    cnt.print()
+   // cnt.print()
+    regIdSearch.print()
 
 //    val appEvents = lines.foreachRDD { r =>
 //    {
