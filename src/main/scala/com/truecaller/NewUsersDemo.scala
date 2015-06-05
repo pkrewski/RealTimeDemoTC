@@ -53,14 +53,15 @@ object NewUsersDemo {
     val lines = KafkaUtils.createStream[Array[Byte], Array[Byte], DefaultDecoder, DefaultDecoder](
       ssc, kafkaParams, topicMap, StorageLevel.MEMORY_AND_DISK).map(_._2)
 
-    val cnt = lines.map{ avroEvent => {
+    val regIdSearch = lines.map{ avroEvent => {
       val avroLogDecoder = new AvroLogDecoder()
       avroLogDecoder.init(topic)
       avroLogDecoder.decode(avroEvent)
     }}
       .filter(_.getSearch.getSearchString != null)
       .map( event => (event.getUser.getRegisterId, event.getSearch.getSearchString))
-      .count()
+
+    val cnt = regIdSearch.groupByKey().map{ case (regId, itr) => (regId, itr.toList.size)}
 
     cnt.print()
 
