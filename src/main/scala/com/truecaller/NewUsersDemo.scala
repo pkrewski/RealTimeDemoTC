@@ -67,7 +67,7 @@ object NewUsersDemo {
       (regId, size)
     }}
 
-  //  cnt.print()
+    cnt.print()
 
 //    val appEvents = lines.foreachRDD { r =>
 //    {
