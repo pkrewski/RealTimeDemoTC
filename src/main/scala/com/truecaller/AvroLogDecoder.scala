@@ -44,7 +44,7 @@ class AvroLogDecoder {
     val decoder = DecoderFactory.get().binaryDecoder(avroBytes, OFFSET, avroBytes.length - OFFSET, null)
 
     val appEvent = reader.read(null, decoder)
-    logger.info("deserialized: " + appEvent)
+   // logger.info("deserialized: " + appEvent)
 
     return appEvent
   }
